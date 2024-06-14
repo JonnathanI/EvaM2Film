@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS film (
     title VARCHAR(50) NOT NULL,
     director VARCHAR(50) NOT NULL,
     duration DECIMAL(10,2) NOT NULL ,
-    release_year INT NOT NULL ,
+    release_year DATE NOT NULL ,
     genre VARCHAR(30) NOT NULL ,
     language VARCHAR(30) NOT NULL ,
     country VARCHAR(50) NOT NULL ,

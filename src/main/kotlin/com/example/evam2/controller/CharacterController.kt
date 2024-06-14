@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/character")
+@CrossOrigin(methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE])
 class CharacterController {
     @Autowired
     lateinit var characterService: CharacterService
@@ -16,6 +17,11 @@ class CharacterController {
     @GetMapping
     fun list(): List<Character>{
         return characterService.list()
+    }
+    @GetMapping("/characterView")
+    fun listCharacter(): ResponseEntity<List<Character>>{
+        val scene = characterService.list()
+        return ResponseEntity(scene,HttpStatus.OK)
     }
     @PostMapping
     fun save(@RequestBody character: Character):Character{

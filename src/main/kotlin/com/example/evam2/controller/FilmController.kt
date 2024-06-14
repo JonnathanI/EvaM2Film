@@ -1,6 +1,7 @@
 package com.example.evam2.controller
 
 import com.example.evam2.model.Film
+import com.example.evam2.model.FilmView
 import com.example.evam2.service.FilmService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/film")
+@CrossOrigin(methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE])
 class FilmController {
     @Autowired
     lateinit var filmService: FilmService
@@ -17,6 +19,12 @@ class FilmController {
     fun list(): List<Film>{
         return filmService.list()
     }
+    @GetMapping("/filmview")
+    fun listFilm():ResponseEntity<List<FilmView>>{
+        val scene = filmService.listFilm()
+        return ResponseEntity(scene,HttpStatus.OK)
+    }
+
     @PostMapping
     fun save(@RequestBody film: Film):Film{
         return filmService.save(film)

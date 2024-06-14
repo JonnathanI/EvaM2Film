@@ -1,7 +1,9 @@
 package com.example.evam2.service
 
 import com.example.evam2.model.Film
+import com.example.evam2.model.FilmView
 import com.example.evam2.respository.FilmRepository
+import com.example.evam2.respository.SceneViewRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -12,8 +14,15 @@ class FilmService {
     @Autowired
     lateinit var filmRepository: FilmRepository
 
+    @Autowired
+    lateinit var sceneViewRepository: SceneViewRepository
+
     fun list(): List<Film>{
         return filmRepository.findAll()
+    }
+
+    fun listFilm(): List<FilmView>{
+        return sceneViewRepository.findAll()
     }
 
     fun save(film: Film):Film{

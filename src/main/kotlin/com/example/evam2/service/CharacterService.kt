@@ -1,7 +1,9 @@
 package com.example.evam2.service
 
 import com.example.evam2.model.Character
+import com.example.evam2.model.CharacterView
 import com.example.evam2.respository.CharacterRepository
+import com.example.evam2.respository.CharacterViewRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -12,8 +14,15 @@ class CharacterService {
     @Autowired
     lateinit var characterRepository: CharacterRepository
 
+    @Autowired
+    lateinit var characterViewRepository: CharacterViewRepository
+
     fun list(): List<Character>{
         return characterRepository.findAll()
+    }
+
+    fun listCharacter(): List<CharacterView>{
+        return characterViewRepository.findAll()
     }
 
     fun save(character: Character):Character{
