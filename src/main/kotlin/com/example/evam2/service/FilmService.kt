@@ -1,7 +1,7 @@
 package com.example.evam2.service
 
 import com.example.evam2.model.Film
-import com.example.evam2.model.FilmView
+import com.example.evam2.model.SceneView
 import com.example.evam2.respository.FilmRepository
 import com.example.evam2.respository.SceneViewRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,54 +14,47 @@ class FilmService {
     @Autowired
     lateinit var filmRepository: FilmRepository
 
-    @Autowired
-    lateinit var sceneViewRepository: SceneViewRepository
-
-    fun list(): List<Film>{
+    fun list(): List<Film> {
         return filmRepository.findAll()
     }
-
-    fun listFilm(): List<FilmView>{
-        return sceneViewRepository.findAll()
+    fun listById(id: Long): Film {
+        return filmRepository.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Film with id $id not found") }
     }
 
-    fun save(film: Film):Film{
+    fun save(film: Film): Film {
         return filmRepository.save(film)
     }
 
-    fun update(film: Film):Film{
+    fun update(film: Film): Film {
         try {
-            filmRepository.findById(film.id)?: throw Exception("Pelicula no Encontrado")
+            filmRepository.findById(film.id) ?: throw Exception("Pelicula no Encontrada")
             return filmRepository.save(film)
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun updateTitle(film: Film):Film{
+    fun updateTitle(film: Film): Film {
         try {
-
-            var response = filmRepository.findById(film.id) ?: throw Exception("Ya existe este ID")
+            val response = filmRepository.findById(film.id) ?: throw Exception("Pelicula no Encontrada")
             response.apply {
-                title=film.title
-
+                title = film.title
             }
             return filmRepository.save(response)
-        }
-        catch(ex:Exception){
-            throw  ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
+        } catch (ex: Exception) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
     }
 
-    fun  delete(id: Long) {
+    fun delete(id: Long) {
         try {
-
-            var response = filmRepository.findById(id).orElseThrow{throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pelicula no Existe con el Id:  $id")}
+            val response = filmRepository.findById(id).orElseThrow {
+                throw ResponseStatusException(HttpStatus.NOT_FOUND, "Pelicula no Existe con el Id: $id")
+            }
             filmRepository.delete(response)
-        }
-        catch(ex:Exception){
+        } catch (ex: Exception) {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar la Pelicula", ex)
         }
     }
-
 }

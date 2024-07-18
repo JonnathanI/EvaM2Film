@@ -14,7 +14,6 @@ class CharacterView {
     var cost: Double? = null
     var actor: String? = null
     var stock: String? = null
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scene_id")
-    var scene:Scene? = null
+    @Column(name= "scene_description")
+    var sceneDescription: String? = null
 }

@@ -1,12 +1,11 @@
 package com.example.evam2.model
 
-
 import jakarta.persistence.*
 import java.math.BigDecimal
 
 @Entity
-@Table(name = "scene")
-class Scene {
+@Table(name = "scene_view")
+class SceneView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
@@ -19,7 +18,6 @@ class Scene {
     var dateShot: String? = null
     @Column(name = "actors_involved")
     var actorsInvolved: String? = null
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "film_id")
-    var film: Film? = null
+    @Column(name = "film_title")
+    val filmTitle: String?= null
 }

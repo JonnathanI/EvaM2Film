@@ -2,6 +2,7 @@ package com.example.evam2.service
 
 
 import com.example.evam2.model.Scene
+import com.example.evam2.model.SceneView
 import com.example.evam2.respository.FilmRepository
 import com.example.evam2.respository.SceneRepository
 import com.example.evam2.respository.SceneViewRepository
@@ -19,6 +20,10 @@ class SceneService {
 
     @Autowired
     lateinit var sceneViewRepository: SceneViewRepository
+
+    fun listWithFilm(): List<SceneView>{
+        return sceneViewRepository.findAll()
+    }
 
     fun list(): List<Scene> {
         return sceneRepository.findAll()
@@ -59,6 +64,11 @@ class SceneService {
         } catch (ex: Exception) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
         }
+    }
+
+    fun listById(id: Long):Scene {
+        return sceneRepository.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Film with id $id not found") }
     }
 
     fun delete(id: Long) {

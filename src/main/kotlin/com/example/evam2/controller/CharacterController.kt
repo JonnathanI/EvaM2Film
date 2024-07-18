@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/character")
+@RequestMapping("/characters")
 @CrossOrigin(methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE])
 class CharacterController {
     @Autowired
@@ -23,17 +23,36 @@ class CharacterController {
         val scene = characterService.list()
         return ResponseEntity(scene,HttpStatus.OK)
     }
+
+    @GetMapping("/{id}")
+    fun listById(@PathVariable id: Long): Character{
+        return characterService.listById(id)
+    }
+
+
     @PostMapping
     fun save(@RequestBody character: Character):Character{
         return characterService.save(character)
     }
-    @PutMapping
-    fun update(@RequestBody character: Character): ResponseEntity <Character>{
-        return ResponseEntity(characterService.update(character), HttpStatus.OK)
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long?  ,@RequestBody character: Character?): ResponseEntity <Character>{
+        val updatedCharacters =  characterService.update(character!!)
+        return ResponseEntity.ok(updatedCharacters)
     }
-    @PatchMapping
-    fun updateTitle (@RequestBody character: Character): ResponseEntity<Character>{
-        return ResponseEntity(characterService.updateName(character),HttpStatus.OK)
+    @PatchMapping("/{id}")
+    fun updateTitle (@PathVariable id: Long?  ,@RequestBody character: Character?): ResponseEntity<Character>{
+        val updatedCharacters =  characterService.updateName(character!!)
+        return ResponseEntity.ok(updatedCharacters)
+    }
+
+    @GetMapping("/validateCost/{filmId}")
+    fun validateFimDuration(@PathVariable filmId: Long):ResponseEntity<String>{
+        try {
+            characterService.validateCostFilmDuration(filmId)
+            return ResponseEntity.ok("El costo total de los personajes no excede la duración de la película.")
+        }catch (ex: Exception){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message)
+        }
     }
 
     @DeleteMapping("/{id}")
