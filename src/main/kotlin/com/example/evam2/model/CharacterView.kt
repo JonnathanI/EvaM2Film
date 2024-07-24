@@ -14,6 +14,4 @@ class CharacterView {
     var cost: Double? = null
     var actor: String? = null
     var stock: String? = null
-    @Column(name= "scene_description")
-    var sceneDescription: String? = null
 }

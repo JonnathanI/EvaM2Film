@@ -28,7 +28,7 @@ class FilmService {
 
     fun update(film: Film): Film {
         try {
-            filmRepository.findById(film.id) ?: throw Exception("Pelicula no Encontrada")
+            filmRepository.findById(film.id?: throw Exception("Pelicula no Encontrada"))
             return filmRepository.save(film)
         } catch (ex: Exception) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, ex.message)
@@ -37,7 +37,7 @@ class FilmService {
 
     fun updateTitle(film: Film): Film {
         try {
-            val response = filmRepository.findById(film.id) ?: throw Exception("Pelicula no Encontrada")
+            val response = filmRepository.findById(film.id)?: throw Exception("Pelicula no Encontrada")
             response.apply {
                 title = film.title
             }
